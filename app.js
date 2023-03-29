@@ -88,11 +88,35 @@ const returnRandBase = () => {
   }
   
   function pAequorFactory(specimenNum, dna) {
-    if (dna !== 15) {
-        throw new Error('Dna should contain 15 bases.');
+    if (dna.length !== 15) {
+      throw new Error('DNA array should contain exactly 15 DNA bases.');
     }
+  
+    function mutate() {
+      const availableBases = ['A', 'T', 'C', 'G'];
+      const randomIndex = Math.floor(Math.random() * dna.length);
+      const currentBase = dna[randomIndex];
+      let newBase;
+  
+      do {
+        newBase = availableBases[Math.floor(Math.random() * availableBases.length)];
+      } while (newBase === currentBase);
+  
+      dna[randomIndex] = newBase;
+      return dna;
+    }
+  
     return {
-        specimenNum: specimenNum,
-        dna: dna
+      specimenNum: specimenNum,
+      dna: dna,
+      mutate: mutate,
+  
+      // You can add more methods here later as needed.
     };
   }
+  
+  // Example usage:
+  const organism1 = pAequorFactory(1, ['A', 'T', 'C', 'G', 'A', 'T', 'C', 'G', 'A', 'T', 'C', 'G', 'A', 'T', 'C']);
+  console.log('Before mutation:', organism1.dna);
+  organism1.mutate();
+  console.log('After mutation:', organism1.dna);
